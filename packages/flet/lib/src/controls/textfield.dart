@@ -125,6 +125,10 @@ class _TextFieldControlState extends State<TextFieldControl>
           widget.children.where((c) => c.name == "prefix" && c.isVisible);
       var suffixControls =
           widget.children.where((c) => c.name == "suffix" && c.isVisible);
+      var prefixIconControls =
+          widget.children.where((c) => c.name == "prefixIcon" && c.isVisible);
+      var suffixIconControls =
+          widget.children.where((c) => c.name == "suffixIcon" && c.isVisible);
 
       bool shiftEnter = widget.control.attrBool("shiftEnter", false)!;
       bool multiline =
@@ -181,18 +185,18 @@ class _TextFieldControlState extends State<TextFieldControl>
         inputFormatters.add(TextCapitalizationFormatter(textCapitalization));
       }
 
-      Widget? revealPasswordIcon;
-      if (password && canRevealPassword) {
-        revealPasswordIcon = GestureDetector(
-            child: Icon(
-              _revealPassword ? Icons.visibility_off : Icons.visibility,
-            ),
-            onTap: () {
-              setState(() {
-                _revealPassword = !_revealPassword;
-              });
-            });
-      }
+      // Widget? revealPasswordIcon;
+      // if (password && canRevealPassword) {
+      //   revealPasswordIcon = GestureDetector(
+      //       child: Icon(
+      //         _revealPassword ? Icons.visibility_off : Icons.visibility,
+      //       ),
+      //       onTap: () {
+      //         setState(() {
+      //           _revealPassword = !_revealPassword;
+      //         });
+      //       });
+      // }
 
       TextInputType keyboardType =
           parseTextInputType(widget.control.attrString("keyboardType", "")!);
@@ -225,6 +229,12 @@ class _TextFieldControlState extends State<TextFieldControl>
         focusNode.requestFocus();
       }
 
+      var suffixIconControl =
+          suffixIconControls.isNotEmpty ? suffixIconControls.first : null;
+
+      var prefixIconControl =
+          prefixIconControls.isNotEmpty ? prefixIconControls.first : null;
+
       Widget textField = TextFormField(
           style: textStyle,
           autofocus: autofocus,
@@ -240,7 +250,8 @@ class _TextFieldControlState extends State<TextFieldControl>
               widget.control,
               prefixControls.isNotEmpty ? prefixControls.first : null,
               suffixControls.isNotEmpty ? suffixControls.first : null,
-              revealPasswordIcon,
+              prefixIconControl,
+              suffixIconControl,
               _focused,
               adaptive),
           showCursor: widget.control.attrBool("showCursor"),

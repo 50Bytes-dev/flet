@@ -114,20 +114,50 @@ class _CheckboxControlState extends State<CheckboxControl> with FletStoreMixin {
         labelStyle = labelStyle.apply(color: Theme.of(context).disabledColor);
       }
 
+      Color? checkColor = HexColor.fromString(
+          Theme.of(context), widget.control.attrString("checkColor", "")!);
+
+      Color? borderColor = HexColor.fromString(
+          Theme.of(context), widget.control.attrString("borderColor", "")!);
+
+      double borderWidth = widget.control.attrDouble("borderWidth", 1.0)!;
+
+      Color? activeColor = HexColor.fromString(
+          Theme.of(context), widget.control.attrString("activeColor", "")!);
+
+      Color? activeBorderColor = HexColor.fromString(Theme.of(context),
+          widget.control.attrString("activeBorderColor", "")!);
+
+      double activeBorderWidth =
+          widget.control.attrDouble("activeBorderWidth", 1.0)!;
+
+      double borderRadius = widget.control.attrDouble("borderRadius", 2.0)!;
+
       var checkbox = Checkbox(
           autofocus: autofocus,
           focusNode: _focusNode,
           value: _value,
-          activeColor: HexColor.fromString(
-              Theme.of(context), widget.control.attrString("activeColor", "")!),
+          side: MaterialStateBorderSide.resolveWith((states) {
+            if (states.contains(MaterialState.selected)) {
+              return BorderSide(
+                  color: activeBorderColor ?? activeColor ?? Colors.white,
+                  width: activeBorderWidth);
+            } else {
+              return BorderSide(
+                  color: borderColor ?? checkColor ?? Colors.grey,
+                  width: borderWidth);
+            }
+          }),
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(Radius.circular(borderRadius))),
+          activeColor: activeColor,
           focusColor: HexColor.fromString(
               Theme.of(context), widget.control.attrString("focusColor", "")!),
           hoverColor: HexColor.fromString(
               Theme.of(context), widget.control.attrString("hoverColor", "")!),
           overlayColor: parseMaterialStateColor(
               Theme.of(context), widget.control, "overlayColor"),
-          checkColor: HexColor.fromString(
-              Theme.of(context), widget.control.attrString("checkColor", "")!),
+          checkColor: checkColor,
           fillColor: parseMaterialStateColor(
               Theme.of(context), widget.control, "fillColor"),
           tristate: _tristate,

@@ -61,11 +61,11 @@ class FormFieldControl(ConstrainedControl):
         error_text: Optional[str] = None,
         error_style: Optional[TextStyle] = None,
         prefix: Optional[Control] = None,
-        prefix_icon: Optional[str] = None,
+        prefix_icon: Optional[Control] = None,
         prefix_text: Optional[str] = None,
         prefix_style: Optional[TextStyle] = None,
         suffix: Optional[Control] = None,
-        suffix_icon: Optional[str] = None,
+        suffix_icon: Optional[Control] = None,
         suffix_text: Optional[str] = None,
         suffix_style: Optional[TextStyle] = None,
         rtl: Optional[bool] = None,
@@ -189,6 +189,12 @@ class FormFieldControl(ConstrainedControl):
         if self.__suffix:
             self.__suffix._set_attr_internal("n", "suffix")
             children.append(self.__suffix)
+        if self.__prefix_icon:
+            self.__prefix_icon._set_attr_internal("n", "prefixIcon")
+            children.append(self.__prefix_icon)
+        if self.__suffix_icon:
+            self.__suffix_icon._set_attr_internal("n", "suffixIcon")
+            children.append(self.__suffix_icon)
         return children
 
     # text_size
@@ -452,11 +458,11 @@ class FormFieldControl(ConstrainedControl):
     # prefix_icon
     @property
     def prefix_icon(self):
-        return self._get_attr("prefixIcon")
+        return self.__prefix_icon
 
     @prefix_icon.setter
     def prefix_icon(self, value):
-        self._set_attr("prefixIcon", value)
+        self.__prefix_icon = value
 
     # prefix_text
     @property
@@ -488,11 +494,11 @@ class FormFieldControl(ConstrainedControl):
     # suffix_icon
     @property
     def suffix_icon(self):
-        return self._get_attr("suffixIcon")
+        return self.__suffix_icon
 
     @suffix_icon.setter
     def suffix_icon(self, value):
-        self._set_attr("suffixIcon", value)
+        self.__suffix_icon = value
 
     # suffix_text
     @property

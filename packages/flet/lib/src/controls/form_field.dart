@@ -44,7 +44,8 @@ InputDecoration buildInputDecoration(
     Control control,
     Control? prefix,
     Control? suffix,
-    Widget? customSuffix,
+    Control? prefixIcon,
+    Control? suffixIcon,
     bool focused,
     bool? adaptive) {
   String? label = control.attrString("label", "")!;
@@ -54,9 +55,7 @@ InputDecoration buildInputDecoration(
   );
   var icon = parseIcon(control.attrString("icon", "")!);
 
-  var prefixIcon = parseIcon(control.attrString("prefixIcon", "")!);
   var prefixText = control.attrString("prefixText");
-  var suffixIcon = parseIcon(control.attrString("suffixIcon", "")!);
   var suffixText = control.attrString("suffixText");
 
   var bgcolor = HexColor.fromString(
@@ -131,18 +130,26 @@ InputDecoration buildInputDecoration(
       counterStyle: parseTextStyle(Theme.of(context), control, "counterStyle"),
       errorText: control.attrString("errorText"),
       errorStyle: parseTextStyle(Theme.of(context), control, "errorStyle"),
-      prefixIcon: prefixIcon != null ? Icon(prefixIcon) : null,
+      prefixIcon: prefixIcon != null
+          ? createControl(control, prefixIcon.id, control.isDisabled,
+              parentAdaptive: adaptive)
+          : null,
+      prefixIconConstraints: const BoxConstraints(minWidth: 0, minHeight: 0),
       prefixText: prefixText,
       prefixStyle: parseTextStyle(Theme.of(context), control, "prefixStyle"),
       prefix: prefix != null
           ? createControl(control, prefix.id, control.isDisabled,
               parentAdaptive: adaptive)
           : null,
+      floatingLabelBehavior: FloatingLabelBehavior.always,
       suffix: suffix != null
           ? createControl(control, suffix.id, control.isDisabled,
               parentAdaptive: adaptive)
           : null,
-      suffixIcon: suffixIcon != null ? Icon(suffixIcon) : customSuffix,
+      suffixIcon: suffixIcon != null
+          ? createControl(control, suffixIcon.id, control.isDisabled,
+              parentAdaptive: adaptive)
+          : null,
       suffixText: suffixText,
       suffixStyle: parseTextStyle(Theme.of(context), control, "suffixStyle"));
 }
