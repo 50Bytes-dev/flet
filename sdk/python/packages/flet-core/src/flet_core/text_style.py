@@ -40,3 +40,41 @@ class TextStyle:
     shadow: Union[None, BoxShadow, List[BoxShadow]] = field(default=None)
     foreground: Optional[Paint] = field(default=None)
     letter_spacing: OptionalNumber = field(default=None)
+
+    def copy_with(
+        self,
+        size: Union[None, int, float] = None,
+        height: Union[None, int, float] = None,
+        weight: Optional[FontWeight] = None,
+        italic: Optional[bool] = None,
+        decoration: Optional[TextDecoration] = None,
+        decoration_color: Optional[str] = None,
+        decoration_thickness: OptionalNumber = None,
+        decoration_style: Optional[TextDecorationStyle] = None,
+        font_family: Optional[str] = None,
+        color: Optional[str] = None,
+        bgcolor: Optional[str] = None,
+        shadow: Union[None, BoxShadow, List[BoxShadow]] = None,
+        foreground: Optional[Paint] = None,
+        letter_spacing: OptionalNumber = None,
+    ):
+        return TextStyle(
+            size if size is not None else self.size,
+            height if height is not None else self.height,
+            weight if weight is not None else self.weight,
+            italic if italic is not None else self.italic,
+            decoration if decoration is not None else self.decoration,
+            decoration_color if decoration_color is not None else self.decoration_color,
+            (
+                decoration_thickness
+                if decoration_thickness is not None
+                else self.decoration_thickness
+            ),
+            decoration_style if decoration_style is not None else self.decoration_style,
+            font_family if font_family is not None else self.font_family,
+            color if color is not None else self.color,
+            bgcolor if bgcolor is not None else self.bgcolor,
+            shadow if shadow is not None else self.shadow,
+            foreground if foreground is not None else self.foreground,
+            letter_spacing if letter_spacing is not None else self.letter_spacing,
+        )

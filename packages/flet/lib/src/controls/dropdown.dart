@@ -116,6 +116,10 @@ class _DropdownControlState extends State<DropdownControl> with FletStoreMixin {
           .where((c) => c.control.name == "prefix" && c.control.isVisible);
       var suffixControls = itemsView.controlViews
           .where((c) => c.control.name == "suffix" && c.control.isVisible);
+      var prefixIconControls = itemsView.controlViews
+          .where((c) => c.control.name == "prefixIcon" && c.control.isVisible);
+      var suffixIconControls = itemsView.controlViews
+          .where((c) => c.control.name == "suffixIcon" && c.control.isVisible);
 
       var focusValue = widget.control.attrString("focus");
       if (focusValue != null && focusValue != _lastFocusValue) {
@@ -138,7 +142,12 @@ class _DropdownControlState extends State<DropdownControl> with FletStoreMixin {
             widget.control,
             prefixControls.isNotEmpty ? prefixControls.first.control : null,
             suffixControls.isNotEmpty ? suffixControls.first.control : null,
-            null,
+            prefixIconControls.isNotEmpty
+                ? prefixIconControls.first.control
+                : null,
+            suffixIconControls.isNotEmpty
+                ? suffixIconControls.first.control
+                : null,
             _focused,
             widget.parentAdaptive),
         onChanged: disabled

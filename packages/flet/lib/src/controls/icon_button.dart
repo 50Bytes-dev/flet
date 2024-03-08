@@ -93,6 +93,7 @@ class _IconButtonControlState extends State<IconButtonControl>
       String url = widget.control.attrString("url", "")!;
       String? urlTarget = widget.control.attrString("urlTarget");
       bool disabled = widget.control.isDisabled || widget.parentDisabled;
+      double? splashRadius = widget.control.attrDouble("splashRadius");
 
       Function()? onPressed = disabled
           ? null
@@ -123,6 +124,7 @@ class _IconButtonControlState extends State<IconButtonControl>
 
       if (icon != null) {
         button = IconButton(
+            splashRadius: splashRadius,
             autofocus: autofocus,
             focusNode: _focusNode,
             highlightColor: highlightColor,
