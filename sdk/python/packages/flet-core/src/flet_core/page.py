@@ -1807,6 +1807,15 @@ class Page(AdaptiveControl):
     def window_visible(self, value: Optional[bool]):
         self._set_attr("windowVisible", value)
 
+    # cookie
+    @property
+    def cookie(self) -> str:
+        return self._get_attr("cookie", def_value="")
+
+    @cookie.setter
+    def cookie(self, value):
+        self._set_attr("cookie", value)
+
     # on_scroll_interval
     @property
     def on_scroll_interval(self) -> OptionalNumber:
