@@ -9,6 +9,7 @@ from flet_core.ref import Ref
 from flet_core.types import (
     AnimationValue,
     OffsetValue,
+    PaddingValue,
     ResponsiveNumber,
     RotateValue,
     ScaleValue,
@@ -57,12 +58,14 @@ class IconButton(ConstrainedControl, AdaptiveControl):
 
     def __init__(
         self,
+        padding: PaddingValue = None,
         icon: Optional[str] = None,
         icon_color: Optional[str] = None,
         icon_size: OptionalNumber = None,
         selected: Optional[bool] = None,
         selected_icon: Optional[str] = None,
         selected_icon_color: Optional[str] = None,
+        splash_radius: OptionalNumber = None,
         bgcolor: Optional[str] = None,
         highlight_color: Optional[str] = None,
         style: Optional[ButtonStyle] = None,
@@ -143,6 +146,7 @@ class IconButton(ConstrainedControl, AdaptiveControl):
         self.highlight_color = highlight_color
         self.selected_icon = selected_icon
         self.selected_icon_color = selected_icon_color
+        self.splash_radius = splash_radius
         self.selected = selected
         self.bgcolor = bgcolor
         self.style = style
@@ -153,6 +157,7 @@ class IconButton(ConstrainedControl, AdaptiveControl):
         self.on_click = on_click
         self.on_focus = on_focus
         self.on_blur = on_blur
+        self.padding = padding
 
     def _get_control_name(self):
         return "iconbutton"
@@ -182,6 +187,15 @@ class IconButton(ConstrainedControl, AdaptiveControl):
     )
     async def focus_async(self):
         self.focus()
+
+    # padding
+    @property
+    def padding(self):
+        return self._get_attr("padding")
+
+    @padding.setter
+    def padding(self, value):
+        self._set_attr("padding", value)
 
     # icon
     @property
@@ -254,6 +268,15 @@ class IconButton(ConstrainedControl, AdaptiveControl):
     @selected.setter
     def selected(self, value: Optional[bool]):
         self._set_attr("selected", value)
+
+    # splash_radius
+    @property
+    def splash_radius(self):
+        return self._get_attr("splashRadius")
+
+    @splash_radius.setter
+    def splash_radius(self, value):
+        self._set_attr("splashRadius", value)
 
     # style
     @property

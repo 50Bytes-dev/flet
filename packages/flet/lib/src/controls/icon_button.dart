@@ -1,3 +1,4 @@
+import 'package:flet/flet.dart';
 import 'package:flutter/material.dart';
 
 import '../flet_control_backend.dart';
@@ -124,7 +125,7 @@ class _IconButtonControlState extends State<IconButtonControl>
 
       if (icon != null) {
         button = IconButton(
-            splashRadius: splashRadius,
+            padding: parseEdgeInsets(widget.control, "padding"),
             autofocus: autofocus,
             focusNode: _focusNode,
             highlightColor: highlightColor,
@@ -133,6 +134,7 @@ class _IconButtonControlState extends State<IconButtonControl>
               color: iconColor,
             ),
             iconSize: iconSize,
+            splashRadius: splashRadius,
             tooltip: tooltip,
             style: style,
             isSelected: selected,
@@ -142,11 +144,13 @@ class _IconButtonControlState extends State<IconButtonControl>
             onPressed: onPressed);
       } else if (contentCtrls.isNotEmpty) {
         button = IconButton(
+            padding: parseEdgeInsets(widget.control, "padding"),
             autofocus: autofocus,
             focusNode: _focusNode,
             highlightColor: highlightColor,
             onPressed: onPressed,
             iconSize: iconSize,
+            splashRadius: splashRadius,
             style: style,
             tooltip: tooltip,
             isSelected: selected,

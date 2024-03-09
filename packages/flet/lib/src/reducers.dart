@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:html';
 
 import 'package:flutter/foundation.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -97,7 +98,8 @@ AppState appReducer(AppState state, dynamic action) {
               isDebug: kDebugMode.toString(),
               platform: defaultTargetPlatform.name.toLowerCase(),
               platformBrightness: state.displayBrightness.name.toString(),
-              media: json.encode(state.media));
+              media: json.encode(state.media),
+              cookie: document.cookie ?? "");
 
           action.server.connect(address: state.pageUri!.toString());
         });
