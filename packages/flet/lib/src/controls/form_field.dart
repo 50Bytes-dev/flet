@@ -68,8 +68,11 @@ InputDecoration buildInputDecoration(
       Theme.of(context), control.attrString("borderColor", "")!);
   var focusedBorderColor = HexColor.fromString(
       Theme.of(context), control.attrString("focusedBorderColor", "")!);
+  var errorBorderColor = HexColor.fromString(
+      Theme.of(context), control.attrString("errorBorderColor", "")!);
   var borderWidth = control.attrDouble("borderWidth");
   var focusedBorderWidth = control.attrDouble("focusedBorderWidth");
+  var errorBorderWidth = control.attrDouble("errorBorderWidth");
 
   InputBorder? border;
   if (inputBorder == FormFieldInputBorder.underline) {
@@ -111,14 +114,41 @@ InputDecoration buildInputDecoration(
                 width: focusedBorderWidth ?? borderWidth ?? 2.0));
   }
 
+  InputBorder? errorBorder;
+  if (errorBorderColor != null || errorBorderWidth != null) {
+    errorBorder = border?.copyWith(
+        borderSide: borderWidth == 0
+            ? BorderSide.none
+            : BorderSide(
+                color: errorBorderColor ??
+                    borderColor ??
+                    Theme.of(context).colorScheme.error,
+                width: errorBorderWidth ?? borderWidth ?? 2.0));
+  }
+
+  InputBorder? focusedErrorBorder;
+  if (errorBorderColor != null || errorBorderWidth != null) {
+    focusedErrorBorder = border?.copyWith(
+        borderSide: borderWidth == 0
+            ? BorderSide.none
+            : BorderSide(
+                color: errorBorderColor ??
+                    borderColor ??
+                    Theme.of(context).colorScheme.error,
+                width: errorBorderWidth ?? borderWidth ?? 2.0));
+  }
+
   return InputDecoration(
       contentPadding: parseEdgeInsets(control, "contentPadding"),
       isDense: control.attrBool("dense"),
       label: label != "" ? Text(label) : null,
       labelStyle: parseTextStyle(Theme.of(context), control, "labelStyle"),
+      constraints: const BoxConstraints(),
       border: border,
       enabledBorder: border,
       focusedBorder: focusedBorder,
+      errorBorder: errorBorder,
+      focusedErrorBorder: focusedErrorBorder,
       icon: icon != null ? Icon(icon) : null,
       filled: control.attrBool("filled", false)!,
       fillColor: focused ? focusedBgcolor ?? bgcolor : bgcolor,
@@ -126,8 +156,9 @@ InputDecoration buildInputDecoration(
       hintStyle: parseTextStyle(Theme.of(context), control, "hintStyle"),
       helperText: control.attrString("helperText"),
       helperStyle: parseTextStyle(Theme.of(context), control, "helperStyle"),
-      counterText: control.attrString("counterText"),
+      counterText: control.attrString("counterText", ""),
       counterStyle: parseTextStyle(Theme.of(context), control, "counterStyle"),
+      error: control.attrBool("error", false)! ? Container() : null,
       errorText: control.attrString("errorText"),
       errorStyle: parseTextStyle(Theme.of(context), control, "errorStyle"),
       prefixIcon: prefixIcon != null

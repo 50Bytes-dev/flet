@@ -163,6 +163,8 @@ class TextField(FormFieldControl, AdaptiveControl):
         focused_bgcolor: Optional[str] = None,
         focused_border_width: OptionalNumber = None,
         focused_border_color: Optional[str] = None,
+        error_border_width: OptionalNumber = None,
+        error_border_color: Optional[str] = None,
         content_padding: PaddingValue = None,
         dense: Optional[bool] = None,
         filled: Optional[bool] = None,
@@ -172,6 +174,7 @@ class TextField(FormFieldControl, AdaptiveControl):
         helper_style: Optional[TextStyle] = None,
         counter_text: Optional[str] = None,
         counter_style: Optional[TextStyle] = None,
+        error: Optional[bool] = None,
         error_text: Optional[str] = None,
         error_style: Optional[TextStyle] = None,
         prefix: Optional[Control] = None,
@@ -256,6 +259,8 @@ class TextField(FormFieldControl, AdaptiveControl):
             focused_bgcolor=focused_bgcolor,
             focused_border_width=focused_border_width,
             focused_border_color=focused_border_color,
+            error_border_width=error_border_width,
+            error_border_color=error_border_color,
             content_padding=content_padding,
             dense=dense,
             filled=filled,
@@ -265,6 +270,7 @@ class TextField(FormFieldControl, AdaptiveControl):
             helper_style=helper_style,
             counter_text=counter_text,
             counter_style=counter_style,
+            error=error,
             error_text=error_text,
             error_style=error_style,
             prefix=prefix,
@@ -320,6 +326,10 @@ class TextField(FormFieldControl, AdaptiveControl):
 
     def focus(self):
         self._set_attr_json("focus", str(time.time()))
+        self.update()
+
+    def blur(self):
+        self._set_attr_json("blur", str(time.time()))
         self.update()
 
     @deprecated(
