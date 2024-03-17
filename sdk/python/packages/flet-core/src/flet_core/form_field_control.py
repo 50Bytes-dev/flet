@@ -49,6 +49,8 @@ class FormFieldControl(ConstrainedControl):
         focused_bgcolor: Optional[str] = None,
         focused_border_width: OptionalNumber = None,
         focused_border_color: Optional[str] = None,
+        error_border_width: OptionalNumber = None,
+        error_border_color: Optional[str] = None,
         content_padding: PaddingValue = None,
         dense: Optional[bool] = None,
         filled: Optional[bool] = None,
@@ -58,6 +60,7 @@ class FormFieldControl(ConstrainedControl):
         helper_style: Optional[TextStyle] = None,
         counter_text: Optional[str] = None,
         counter_style: Optional[TextStyle] = None,
+        error: Optional[bool] = None,
         error_text: Optional[str] = None,
         error_style: Optional[TextStyle] = None,
         prefix: Optional[Control] = None,
@@ -148,6 +151,8 @@ class FormFieldControl(ConstrainedControl):
         self.focused_bgcolor = focused_bgcolor
         self.focused_border_width = focused_border_width
         self.focused_border_color = focused_border_color
+        self.error_border_width = error_border_width
+        self.error_border_color = error_border_color
         self.content_padding = content_padding
         self.filled = filled
         self.dense = dense
@@ -157,6 +162,7 @@ class FormFieldControl(ConstrainedControl):
         self.helper_style = helper_style
         self.counter_text = counter_text
         self.counter_style = counter_style
+        self.error = error
         self.error_text = error_text
         self.error_style = error_style
         self.prefix = prefix
@@ -347,6 +353,24 @@ class FormFieldControl(ConstrainedControl):
     def focused_border_color(self, value):
         self._set_attr("focusedBorderColor", value)
 
+    # error_border_width
+    @property
+    def error_border_width(self) -> OptionalNumber:
+        return self._get_attr("errorBorderWidth")
+
+    @error_border_width.setter
+    def error_border_width(self, value: OptionalNumber):
+        self._set_attr("errorBorderWidth", value)
+
+    # error_border_color
+    @property
+    def error_border_color(self):
+        return self._get_attr("errorBorderColor")
+
+    @error_border_color.setter
+    def error_border_color(self, value):
+        self._set_attr("errorBorderColor", value)
+
     # content_padding
     @property
     def content_padding(self) -> PaddingValue:
@@ -427,6 +451,15 @@ class FormFieldControl(ConstrainedControl):
     @counter_style.setter
     def counter_style(self, value: Optional[TextStyle]):
         self.__counter_style = value
+
+    # error
+    @property
+    def error(self) -> Optional[bool]:
+        return self._get_attr("error")
+
+    @error.setter
+    def error(self, value: Optional[bool]):
+        self._set_attr("error", value)
 
     # error_text
     @property

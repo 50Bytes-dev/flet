@@ -1,5 +1,6 @@
 import 'dart:convert';
-import 'dart:html';
+import 'utils/cookie_non_web.dart'
+    if (dart.library.html) 'utils/cookie_web.dart';
 
 import 'package:flutter/foundation.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -83,6 +84,11 @@ AppState appReducer(AppState state, dynamic action) {
         debugPrint("Registering web client with route: ${action.route}");
         String pageName = getWebPageName(state.pageUri!);
 
+        var cookie = "";
+        if (kIsWeb) {
+          cookie = document.cookie ?? "";
+        }
+
         getWindowMediaData().then((wmd) {
           action.server.registerWebClient(
               pageName: pageName,
@@ -99,7 +105,7 @@ AppState appReducer(AppState state, dynamic action) {
               platform: defaultTargetPlatform.name.toLowerCase(),
               platformBrightness: state.displayBrightness.name.toString(),
               media: json.encode(state.media),
-              cookie: document.cookie ?? "");
+              cookie: cookie);
 
           action.server.connect(address: state.pageUri!.toString());
         });

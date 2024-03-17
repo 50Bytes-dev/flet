@@ -36,12 +36,13 @@ class TextFieldControl extends StatefulWidget {
 class _TextFieldControlState extends State<TextFieldControl>
     with FletStoreMixin {
   String _value = "";
-  bool _revealPassword = false;
+  // bool _revealPassword = false;
   bool _focused = false;
   late TextEditingController _controller;
   late final FocusNode _focusNode;
   late final FocusNode _shiftEnterfocusNode;
   String? _lastFocusValue;
+  String? _lastBlurValue;
 
   @override
   void initState() {
@@ -138,8 +139,8 @@ class _TextFieldControlState extends State<TextFieldControl>
 
       bool readOnly = widget.control.attrBool("readOnly", false)!;
       bool password = widget.control.attrBool("password", false)!;
-      bool canRevealPassword =
-          widget.control.attrBool("canRevealPassword", false)!;
+      // bool canRevealPassword =
+      //     widget.control.attrBool("canRevealPassword", false)!;
       bool onChange = widget.control.attrBool("onChange", false)!;
 
       var cursorColor = HexColor.fromString(
@@ -229,6 +230,12 @@ class _TextFieldControlState extends State<TextFieldControl>
         focusNode.requestFocus();
       }
 
+      var blurValue = widget.control.attrString("blur");
+      if (blurValue != null && blurValue != _lastBlurValue) {
+        _lastBlurValue = blurValue;
+        focusNode.unfocus();
+      }
+
       var suffixIconControl =
           suffixIconControls.isNotEmpty ? suffixIconControls.first : null;
 
@@ -276,7 +283,8 @@ class _TextFieldControlState extends State<TextFieldControl>
           maxLength: maxLength,
           readOnly: readOnly,
           inputFormatters: inputFormatters.isNotEmpty ? inputFormatters : null,
-          obscureText: password && !_revealPassword,
+          // obscureText: password && !_revealPassword,
+          obscureText: password,
           controller: _controller,
           focusNode: focusNode,
           onChanged: (String value) {
