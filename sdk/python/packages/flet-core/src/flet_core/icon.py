@@ -48,6 +48,7 @@ class Icon(ConstrainedControl):
         name: Optional[str] = None,
         color: Optional[str] = None,
         size: OptionalNumber = None,
+        weight: OptionalNumber = None,
         semantics_label: Optional[str] = None,
         #
         # ConstrainedControl
@@ -102,6 +103,7 @@ class Icon(ConstrainedControl):
         self.name = name
         self.color = color
         self.size = size
+        self.weight = weight
         self.semantics_label = semantics_label
 
     def _get_control_name(self):
@@ -133,6 +135,15 @@ class Icon(ConstrainedControl):
     @size.setter
     def size(self, value: OptionalNumber):
         self._set_attr("size", value)
+
+    # weight
+    @property
+    def weight(self) -> OptionalNumber:
+        return self._get_attr("weight")
+
+    @weight.setter
+    def weight(self, value: OptionalNumber):
+        self._set_attr("weight", value)
 
     # semantics_label
     @property
