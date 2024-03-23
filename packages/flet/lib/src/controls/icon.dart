@@ -17,6 +17,7 @@ class IconControl extends StatelessWidget {
 
     var name = control.attrString("name", "")!;
     var size = control.attrDouble("size");
+    var weight = control.attrDouble("weight");
     var semanticsLabel = control.attrString("semanticsLabel");
     var color = HexColor.fromString(
         Theme.of(context), control.attrString("color", "")!);
@@ -28,6 +29,7 @@ class IconControl extends StatelessWidget {
           size: size,
           color: color,
           semanticLabel: semanticsLabel,
+          weight: weight,
         ),
         parent,
         control);
