@@ -120,6 +120,7 @@ class FletApp(LocalConnection):
         st.cancel()
 
     async def __on_event(self, e):
+        logger.debug(f"__on_event: {e}")
         session = await app_manager.get_session(
             self.__get_unique_session_id(e.sessionID)
         )
