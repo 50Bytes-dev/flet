@@ -493,17 +493,41 @@ class Page(AdaptiveControl):
                     if name != "i":
                         self._index[id]._set_attr(name, props[name], dirty=False)
 
-    def run_task(self, handler: Callable[..., Awaitable[Any]], *args):
-        _session_page.set(self)
-        assert asyncio.iscoroutinefunction(handler)
-        return asyncio.run_coroutine_threadsafe(handler(*args), self.__loop)
-
     def __context_wrapper(self, handler):
-        def wrapper(*args):
-            _session_page.set(self)
-            handler(*args)
+
+        if asyncio.iscoroutinefunction(handler):
+
+            async def wrapper(*args):
+                _session_page.set(self)
+                await handler(*args)
+
+        else:
+
+            def wrapper(*args):
+                _session_page.set(self)
+                handler(*args)
 
         return wrapper
+
+    def run_task(self, handler: Callable[..., Awaitable[Any]], *args):
+        assert asyncio.iscoroutinefunction(handler)
+
+        handler_with_context = self.__context_wrapper(handler)
+
+        future = asyncio.run_coroutine_threadsafe(
+            handler_with_context(*args), self.__loop
+        )
+
+        def _on_completion(f):
+            import traceback
+
+            if f.exception():
+                print("An error occurred:", f.exception())
+                traceback.print_exc()
+
+        future.add_done_callback(_on_completion)
+
+        return future
 
     def run_thread(self, handler, *args):
         handler_with_context = self.__context_wrapper(handler)
@@ -1225,7 +1249,7 @@ class Page(AdaptiveControl):
 
     # route
     @property
-    def route(self):
+    def route(self) -> str:
         return self._get_attr("route")
 
     @route.setter
