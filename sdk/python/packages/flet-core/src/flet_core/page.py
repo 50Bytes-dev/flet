@@ -519,11 +519,10 @@ class Page(AdaptiveControl):
         )
 
         def _on_completion(f):
-            import traceback
+            exception = f.exception()
 
-            if f.exception():
-                print("An error occurred:", f.exception())
-                traceback.print_exc()
+            if exception:
+                raise exception
 
         future.add_done_callback(_on_completion)
 
