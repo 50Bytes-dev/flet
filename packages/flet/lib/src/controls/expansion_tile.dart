@@ -91,45 +91,55 @@ class ExpansionTileControl extends StatelessWidget {
           }
         : null;
 
-    Widget tile = ExpansionTile(
-      controlAffinity: affinity,
-      childrenPadding: parseEdgeInsets(control, "controlsPadding"),
-      tilePadding: parseEdgeInsets(control, "tilePadding"),
-      expandedAlignment: parseAlignment(control, "expandedAlignment"),
-      expandedCrossAxisAlignment: parseCrossAxisAlignment(
-          control, "crossAxisAlignment", CrossAxisAlignment.center),
-      backgroundColor: bgColor,
-      iconColor: iconColor,
-      textColor: textColor,
-      collapsedBackgroundColor: collapsedBgColor,
-      collapsedIconColor: collapsedIconColor,
-      collapsedTextColor: collapsedTextColor,
-      maintainState: maintainState,
-      initiallyExpanded: initiallyExpanded,
-      clipBehavior: clipBehavior,
-      shape: parseOutlinedBorder(control, "shape"),
-      collapsedShape: parseOutlinedBorder(control, "collapsedShape"),
-      onExpansionChanged: onChange,
-      leading: leadingCtrls.isNotEmpty
-          ? createControl(control, leadingCtrls.first.id, disabled,
-              parentAdaptive: adaptive)
-          : null,
-      title: createControl(control, titleCtrls.first.id, disabled,
-          parentAdaptive: adaptive),
-      subtitle: subtitleCtrls.isNotEmpty
-          ? createControl(control, subtitleCtrls.first.id, disabled,
-              parentAdaptive: adaptive)
-          : null,
-      trailing: trailingCtrls.isNotEmpty
-          ? createControl(control, trailingCtrls.first.id, disabled,
-              parentAdaptive: adaptive)
-          : null,
-      children: ctrls.isNotEmpty
-          ? ctrls
-              .map((c) => createControl(control, c.id, disabled,
-                  parentAdaptive: adaptive))
-              .toList()
-          : [],
+    Widget tile = Theme(
+      data: Theme.of(context).copyWith(
+        dividerColor: Colors.transparent,
+      ),
+      child: ListTileTheme(
+        contentPadding: const EdgeInsets.all(0),
+        minVerticalPadding: 0.0,
+        dense: true,
+        child: ExpansionTile(
+          controlAffinity: affinity,
+          childrenPadding: parseEdgeInsets(control, "controlsPadding"),
+          tilePadding: parseEdgeInsets(control, "tilePadding"),
+          expandedAlignment: parseAlignment(control, "expandedAlignment"),
+          expandedCrossAxisAlignment: parseCrossAxisAlignment(
+              control, "crossAxisAlignment", CrossAxisAlignment.center),
+          backgroundColor: bgColor,
+          iconColor: iconColor,
+          textColor: textColor,
+          collapsedBackgroundColor: collapsedBgColor,
+          collapsedIconColor: collapsedIconColor,
+          collapsedTextColor: collapsedTextColor,
+          maintainState: maintainState,
+          initiallyExpanded: initiallyExpanded,
+          clipBehavior: clipBehavior,
+          shape: parseOutlinedBorder(control, "shape"),
+          collapsedShape: parseOutlinedBorder(control, "collapsedShape"),
+          onExpansionChanged: onChange,
+          leading: leadingCtrls.isNotEmpty
+              ? createControl(control, leadingCtrls.first.id, disabled,
+                  parentAdaptive: adaptive)
+              : null,
+          title: createControl(control, titleCtrls.first.id, disabled,
+              parentAdaptive: adaptive),
+          subtitle: subtitleCtrls.isNotEmpty
+              ? createControl(control, subtitleCtrls.first.id, disabled,
+                  parentAdaptive: adaptive)
+              : null,
+          trailing: trailingCtrls.isNotEmpty
+              ? createControl(control, trailingCtrls.first.id, disabled,
+                  parentAdaptive: adaptive)
+              : null,
+          children: ctrls.isNotEmpty
+              ? ctrls
+                  .map((c) => createControl(control, c.id, disabled,
+                      parentAdaptive: adaptive))
+                  .toList()
+              : [],
+        ),
+      ),
     );
 
     return constrainedControl(context, tile, parent, control);
