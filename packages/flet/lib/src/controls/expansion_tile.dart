@@ -98,6 +98,8 @@ class ExpansionTileControl extends StatelessWidget {
       child: ListTileTheme(
         contentPadding: EdgeInsets.zero,
         minVerticalPadding: 0.0,
+        horizontalTitleGap: 0.0,
+        minLeadingWidth: 0.0,
         dense: true,
         child: ExpansionTile(
           controlAffinity: affinity,
