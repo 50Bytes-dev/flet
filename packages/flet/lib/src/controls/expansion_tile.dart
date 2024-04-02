@@ -96,7 +96,7 @@ class ExpansionTileControl extends StatelessWidget {
         dividerColor: Colors.transparent,
       ),
       child: ListTileTheme(
-        contentPadding: const EdgeInsets.all(0),
+        contentPadding: EdgeInsets.zero,
         minVerticalPadding: 0.0,
         dense: true,
         child: ExpansionTile(
