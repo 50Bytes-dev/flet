@@ -2,8 +2,11 @@ import 'package:flutter/material.dart';
 
 import '../flet_control_backend.dart';
 import '../models/control.dart';
+import '../utils/borders.dart';
 import '../utils/colors.dart';
+import '../utils/mouse.dart';
 import '../utils/text.dart';
+import '../utils/theme.dart';
 import 'create_control.dart';
 import 'cupertino_checkbox.dart';
 import 'flet_store_mixin.dart';
@@ -114,53 +117,29 @@ class _CheckboxControlState extends State<CheckboxControl> with FletStoreMixin {
         labelStyle = labelStyle.apply(color: Theme.of(context).disabledColor);
       }
 
-      Color? checkColor = HexColor.fromString(
-          Theme.of(context), widget.control.attrString("checkColor", "")!);
-
-      Color? borderColor = HexColor.fromString(
-          Theme.of(context), widget.control.attrString("borderColor", "")!);
-
-      double borderWidth = widget.control.attrDouble("borderWidth", 1.0)!;
-
-      Color? activeColor = HexColor.fromString(
-          Theme.of(context), widget.control.attrString("activeColor", "")!);
-
-      Color? activeBorderColor = HexColor.fromString(Theme.of(context),
-          widget.control.attrString("activeBorderColor", "")!);
-
-      double activeBorderWidth =
-          widget.control.attrDouble("activeBorderWidth", 1.0)!;
-
-      double borderRadius = widget.control.attrDouble("borderRadius", 2.0)!;
-
       var checkbox = Checkbox(
           autofocus: autofocus,
           focusNode: _focusNode,
           value: _value,
-          side: MaterialStateBorderSide.resolveWith((states) {
-            if (states.contains(MaterialState.selected)) {
-              return BorderSide(
-                  color: activeBorderColor ?? activeColor ?? Colors.white,
-                  width: activeBorderWidth);
-            } else {
-              return BorderSide(
-                  color: borderColor ?? checkColor ?? Colors.grey,
-                  width: borderWidth);
-            }
-          }),
-          shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(Radius.circular(borderRadius))),
-          activeColor: activeColor,
-          focusColor: HexColor.fromString(
-              Theme.of(context), widget.control.attrString("focusColor", "")!),
-          hoverColor: HexColor.fromString(
-              Theme.of(context), widget.control.attrString("hoverColor", "")!),
+          isError: widget.control.attrBool("isError", false)!,
+          semanticLabel: widget.control.attrString("semanticsLabel"),
+          shape: parseOutlinedBorder(widget.control, "shape"),
+          side:
+              parseBorderSide(Theme.of(context), widget.control, "borderSide"),
+          splashRadius: widget.control.attrDouble("splashRadius"),
+          activeColor: widget.control.attrColor("activeColor", context),
+          focusColor: widget.control.attrColor("focusColor", context),
+          hoverColor: widget.control.attrColor("hoverColor", context),
           overlayColor: parseMaterialStateColor(
               Theme.of(context), widget.control, "overlayColor"),
-          checkColor: checkColor,
+          checkColor: widget.control.attrColor("checkColor", context),
           fillColor: parseMaterialStateColor(
               Theme.of(context), widget.control, "fillColor"),
           tristate: _tristate,
+          visualDensity: parseVisualDensity(
+              widget.control.attrString("visualDensity"), null),
+          mouseCursor:
+              parseMouseCursor(widget.control.attrString("mouseCursor"), null),
           onChanged: !disabled
               ? (bool? value) {
                   _onChange(value);

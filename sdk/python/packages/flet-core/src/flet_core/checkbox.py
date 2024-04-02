@@ -68,11 +68,6 @@ class Checkbox(ConstrainedControl, AdaptiveControl):
         active_color: Optional[str] = None,
         hover_color: Optional[str] = None,
         focus_color: Optional[str] = None,
-        border_color: Optional[str] = None,
-        border_width: OptionalNumber = None,
-        border_radius: OptionalNumber = None,
-        active_border_color: Optional[str] = None,
-        active_border_width: OptionalNumber = None,
         semantics_label: Optional[str] = None,
         shape: Optional[OutlinedBorder] = None,
         splash_radius: OptionalNumber = None,
@@ -160,11 +155,6 @@ class Checkbox(ConstrainedControl, AdaptiveControl):
         self.hover_color = hover_color
         self.overlay_color = overlay_color
         self.active_color = active_color
-        self.border_color = border_color
-        self.border_width = border_width
-        self.border_radius = border_radius
-        self.active_border_color = active_border_color
-        self.active_border_width = active_border_width
         self.semantics_label = semantics_label
         self.shape = shape
         self.splash_radius = splash_radius
@@ -327,51 +317,6 @@ class Checkbox(ConstrainedControl, AdaptiveControl):
     @label_style.setter
     def label_style(self, value: Optional[TextStyle]):
         self.__label_style = value
-
-    # border_color
-    @property
-    def border_color(self):
-        return self._get_attr("borderColor")
-
-    @border_color.setter
-    def border_color(self, value):
-        self._set_attr("borderColor", value)
-
-    # border_width
-    @property
-    def border_width(self):
-        return self._get_attr("borderWidth")
-
-    @border_width.setter
-    def border_width(self, value):
-        self._set_attr("borderWidth", value)
-
-    # border_radius
-    @property
-    def border_radius(self):
-        return self._get_attr("borderRadius")
-
-    @border_radius.setter
-    def border_radius(self, value):
-        self._set_attr("borderRadius", value)
-
-    # active_border_color
-    @property
-    def active_border_color(self):
-        return self._get_attr("activeBorderColor")
-
-    @active_border_color.setter
-    def active_border_color(self, value):
-        self._set_attr("activeBorderColor", value)
-
-    # active_border_width
-    @property
-    def active_border_width(self):
-        return self._get_attr("activeBorderWidth")
-
-    @active_border_width.setter
-    def active_border_width(self, value):
-        self._set_attr("activeBorderWidth", value)
 
     # semantics_label
     @property
