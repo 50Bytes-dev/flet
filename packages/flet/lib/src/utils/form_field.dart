@@ -1,13 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import '../controls/create_control.dart';
 import '../models/control.dart';
-import '../utils/borders.dart';
-import '../utils/colors.dart';
-import '../utils/edge_insets.dart';
-import '../utils/icons.dart';
-import '../utils/text.dart';
-import 'create_control.dart';
+import 'borders.dart';
+import 'edge_insets.dart';
+import 'icons.dart';
+import 'text.dart';
 
 enum FormFieldInputBorder { outline, underline, none }
 
@@ -58,18 +57,15 @@ InputDecoration buildInputDecoration(
   var prefixText = control.attrString("prefixText");
   var suffixText = control.attrString("suffixText");
 
-  var bgcolor = HexColor.fromString(
-      Theme.of(context), control.attrString("bgcolor", "")!);
-  var focusedBgcolor = HexColor.fromString(
-      Theme.of(context), control.attrString("focusedBgcolor", "")!);
+  var bgcolor = control.attrColor("bgcolor", context);
+  var focusedBgcolor = control.attrColor("focusedBgcolor", context);
+  var fillColor = control.attrColor("fillColor", context);
+  var hoverColor = control.attrColor("hoverColor", context);
+  var borderColor = control.attrColor("borderColor", context);
 
   var borderRadius = parseBorderRadius(control, "borderRadius");
-  var borderColor = HexColor.fromString(
-      Theme.of(context), control.attrString("borderColor", "")!);
-  var focusedBorderColor = HexColor.fromString(
-      Theme.of(context), control.attrString("focusedBorderColor", "")!);
-  var errorBorderColor = HexColor.fromString(
-      Theme.of(context), control.attrString("errorBorderColor", "")!);
+  var errorBorderColor = control.attrColor("errorBorderColor", context);
+  var focusedBorderColor = control.attrColor("focusedBorderColor", context);
   var borderWidth = control.attrDouble("borderWidth");
   var focusedBorderWidth = control.attrDouble("focusedBorderWidth");
   var errorBorderWidth = control.attrDouble("errorBorderWidth");
@@ -149,9 +145,10 @@ InputDecoration buildInputDecoration(
       focusedBorder: focusedBorder,
       errorBorder: errorBorder,
       focusedErrorBorder: focusedErrorBorder,
+      hoverColor: hoverColor,
       icon: icon != null ? Icon(icon) : null,
       filled: control.attrBool("filled", false)!,
-      fillColor: focused ? focusedBgcolor ?? bgcolor : bgcolor,
+      fillColor: fillColor ?? (focused ? focusedBgcolor ?? bgcolor : bgcolor),
       hintText: control.attrString("hintText"),
       hintStyle: parseTextStyle(Theme.of(context), control, "hintStyle"),
       helperText: control.attrString("helperText"),
