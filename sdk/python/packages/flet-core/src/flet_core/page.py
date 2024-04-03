@@ -523,6 +523,7 @@ class Page(AdaptiveControl):
         return wrapper
 
     def run_task(self, handler: Callable[..., Awaitable[Any]], *args, **kwargs):
+        _session_page.set(self)
         assert asyncio.iscoroutinefunction(handler)
 
         handler_with_context = self.__context_wrapper(handler)
@@ -542,6 +543,13 @@ class Page(AdaptiveControl):
         future.add_done_callback(_on_completion)
 
         return future
+
+    def __context_wrapper(self, handler):
+        def wrapper(*args):
+            _session_page.set(self)
+            handler(*args)
+
+        return wrapper
 
     def run_thread(self, handler, *args):
         handler_with_context = self.__context_wrapper(handler)
