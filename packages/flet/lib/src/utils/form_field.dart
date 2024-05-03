@@ -46,6 +46,7 @@ InputDecoration buildInputDecoration(
     Control? prefixIcon,
     Control? suffixIcon,
     bool focused,
+    bool disabled,
     bool? adaptive) {
   String? label = control.attrString("label", "")!;
   FormFieldInputBorder inputBorder = FormFieldInputBorder.values.firstWhere(
@@ -135,6 +136,7 @@ InputDecoration buildInputDecoration(
   }
 
   return InputDecoration(
+      enabled: !disabled,
       contentPadding: parseEdgeInsets(control, "contentPadding"),
       isDense: control.attrBool("dense"),
       label: label != "" ? Text(label) : null,

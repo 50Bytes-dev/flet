@@ -255,6 +255,7 @@ class _TextFieldControlState extends State<TextFieldControl>
               prefixIconControl,
               suffixIconControl,
               _focused,
+              disabled,
               adaptive),
           showCursor: widget.control.attrBool("showCursor"),
           textAlignVertical: textVerticalAlign != null
