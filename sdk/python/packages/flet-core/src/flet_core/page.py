@@ -5,7 +5,7 @@ import logging
 import threading
 import time
 import uuid
-from concurrent.futures import ThreadPoolExecutor
+from concurrent.futures import ThreadPoolExecutor, CancelledError
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta, timezone
 from typing import Any, Awaitable, Callable, Dict, List, Optional, Tuple, Union, cast
@@ -532,10 +532,12 @@ class Page(AdaptiveControl):
         )
 
         def _on_completion(f):
-            exception = f.exception()
-
-            if exception:
-                raise exception
+            try:
+                exception = f.exception()
+                if exception:
+                    raise exception
+            except CancelledError:
+                pass
 
         future.add_done_callback(_on_completion)
 
