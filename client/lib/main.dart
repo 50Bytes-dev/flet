@@ -42,7 +42,7 @@ void main([List<String>? args]) async {
     debugPrint("Flet View is running in Web mode");
     var routeUrlStrategy = getFletRouteUrlStrategy();
     debugPrint("URL Strategy: $routeUrlStrategy");
-    if (routeUrlStrategy == "path") {
+    if (routeUrlStrategy != "hash") {
       setPathUrlStrategy();
     }
   } else if ((Platform.isWindows || Platform.isMacOS || Platform.isLinux) &&
