@@ -506,7 +506,7 @@ class Page(AdaptiveControl):
                     if name != "i":
                         self._index[id]._set_attr(name, props[name], dirty=False)
 
-    def __context_wrapper(self, handler):
+    def __task_context_wrapper(self, handler):
 
         if asyncio.iscoroutinefunction(handler):
 
@@ -526,7 +526,7 @@ class Page(AdaptiveControl):
         _session_page.set(self)
         assert asyncio.iscoroutinefunction(handler)
 
-        handler_with_context = self.__context_wrapper(handler)
+        handler_with_context = self.__task_context_wrapper(handler)
 
         future = asyncio.run_coroutine_threadsafe(
             handler_with_context(*args, **kwargs), self.__loop
@@ -544,8 +544,15 @@ class Page(AdaptiveControl):
 
         return future
 
+    def __thread_context_wrapper(self, handler):
+        def wrapper(*args):
+            _session_page.set(self)
+            handler(*args)
+
+        return wrapper
+
     def run_thread(self, handler, *args):
-        handler_with_context = self.__context_wrapper(handler)
+        handler_with_context = self.__thread_context_wrapper(handler)
         if is_pyodide():
             handler_with_context(*args)
         else:
