@@ -1,12 +1,13 @@
-from typing import TypeVar, Type, Any, Callable
+from typing import TypeVar, Type, Any, Callable, Generic
 
 
 T = TypeVar("T")
+R = TypeVar("R")
 
 
-class classproperty:
-    def __init__(self, func: Callable[[Type[T]], Any]) -> None:
-        self.fget = func
+class classproperty(Generic[T, R]):
+    def __init__(self, func: Callable[[Type[T]], R]) -> None:
+        self.func = func
 
-    def __get__(self, instance: T, owner: Type[T]) -> Any:
-        return self.fget(owner)
+    def __get__(self, obj: Any, cls: Type[T]) -> R:
+        return self.func(cls)
